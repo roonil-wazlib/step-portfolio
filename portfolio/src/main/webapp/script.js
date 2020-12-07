@@ -15,15 +15,14 @@
 /**
  * Adds a random greeting to the page.
  */
-function addRandomQuote() {
-  const quotes =
-      ['Ride! Ride Riders of Rohan! Ride to ruin!', 'May the force be with you.', 
-      'The secret to flying is to throw yourself at the ground and miss.', 'AHHHHHHHHHHHHH'];
+function addRandomGreeting() {
+  const greetings =
+      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
 
   // Pick a random greeting.
-  const quote = quotes[Math.floor(Math.random() * quotes.length)];
+  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
 
   // Add it to the page.
-  const quoteContainer = document.getElementById('quote-container');
-  quoteContainer.innerText = quote;
+  const greetingContainer = document.getElementById('greeting-container');
+  greetingContainer.innerText = greeting;
 }
