@@ -13,14 +13,14 @@
 // limitations under the License.
 
 /**
- * Adds a random greeting to the page.
+ * Adds a random quote to the page.
  */
 function addRandomQuote() {
   const quotes =
       ['Ride! Ride Riders of Rohan! Ride to ruin!', 'May the force be with you.', 
       'The secret to flying is to throw yourself at the ground and miss.', 'AHHHHHHHHHHHHH'];
 
-  // Pick a random greeting.
+  // Pick a random quote.
   const quote = quotes[Math.floor(Math.random() * quotes.length)];
 
   // Add it to the page.
