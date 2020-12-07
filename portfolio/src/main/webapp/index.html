@@ -10,8 +10,12 @@
     <div id="content">
       <h1>Emma's Portfolio</h1>
       <p>Element that introduces me.</p>
-      <p>This is my portfolio.</p>
-      <img src="images/george.jpg" width="300px"/>
+      <p>Here is a gallery of photos of my cat, George.</p>
+      <img id="george-gallery" src="images/george/george0.jpg" width="300px" title='0'/>
+      <div id="nav-arrows">
+          <button onclick="goBack()"> Prev </button>
+          <button onclick="goForward()"> Next </button>
+      </div>
       <p>Click here to get a random message:</p>
       <button onclick="addRandomQuote()">Generate hilarity</button>
       <div id="quote-container"></div>

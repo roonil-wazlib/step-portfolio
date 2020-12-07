@@ -27,3 +27,37 @@ function addRandomQuote() {
   const quoteContainer = document.getElementById('quote-container');
   quoteContainer.innerText = quote;
 }
+
+/**
+ * Go forward one image in George gallery
+ */
+function goForward() {
+    updateImage(1);
+}
+
+/**
+ * Go back one image in George gallery
+ */
+function goBack() {
+    updateImage(-1);
+}
+
+/**
+ * Update image source to reflect forward/back change
+ * @param {Number} update - 1 to go forward, -1 to go back
+ */
+function updateImage(update) {
+    const totalImages = 12;
+
+    //get current image source and number of image
+    const currentImage = document.getElementById('george-gallery');
+    const imageNumber = Number(currentImage.title);
+    
+    //create new image number and source
+    const newImageNumber = String((imageNumber + update + totalImages) % totalImages); //need additional + totalImages since js doesn't use strick modulus
+    const newImageName = 'images/george/george' + newImageNumber + '.jpg';
+
+    //update image properties
+    currentImage.src = newImageName;
+    currentImage.title = newImageNumber;
+}
