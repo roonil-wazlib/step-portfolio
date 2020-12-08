@@ -112,7 +112,6 @@ function createCells(numRows, numCols) {
  * @param cell - cell object that was clicked on
  */
 function clickCell(cell) {
-    //cell = cells[rows.length * x + y];
     var currBackground = cell.style.background
     switch (currBackground) {
         case 'black':
@@ -124,5 +123,73 @@ function clickCell(cell) {
     }
 }
 
+function playGame() {
+    var newColours = [];
+    while (true) {
+        for (x = 0; x < gridWidth; x++) {
+            for (y = 0; y < gridHeight; y++) {
+                var cellNum = y * gridWidth + x;
+                newColours[cellNum] = newColour(x, y);
+            }
+        }
+        setTimeout(() => {  updateGridView(newColours); }, 500);
+    }
+}
+
+function newColour(x, y) {
+    var liveNeighbours = countNeighbours;
+    var currCell = cells[y * gridWidth + x];
+    //Conway's game of life rules
+    if (currCell.style.background == 'black') {
+        //cell is currently alive
+        if (liveNeighbours < 2 || liveNeighbours > 3) {
+            //cell dies next iteration
+            return 'white';
+        } else {
+            //cell lives next iteration
+            return 'black'
+        }
+    } else {
+        //cell is currently dead
+        if (liveNeighbours == 3) {
+            //cell comes alive
+            return 'black'
+        } else {
+            //cell remains dead
+            return 'white'
+        }
+    }
+}
+
+function countNeighbours(x, y) {
+    var liveNeighbours = 0;
+    for (i = -1; i <= 1; i++) {
+        for (j = -1; j <= 1; j++) {
+            if (i == 0 ||j == 0) {
+                // current cell, don't count
+                continue;
+            } else if (i < 0 || j < 0 || i >= gridWidth || j >= gridHeight) {
+                // gone off grid, ignore
+                continue;
+            } else {
+                //valid neighbour cell
+                var cellNum = (y + j) * gridWidth + (x + i);
+                if (cells[cellNum].style.background == 'black') {
+                    liveNeighbours++;
+                }
+            }
+        }
+    }
+    return liveNeighbours
+}
+
+function updateGridView(newColours) {
+    for (x = 0; x < newColours.length; x++) {
+        cells[x].style.background = newColours[x];
+    }
+}
+
 //Create a 16 by 16 grid
-populateGrid(16, 16);
+const gridWidth = 16;
+const gridHeight = 16;
+populateGrid(gridWidth, gridHeight);
