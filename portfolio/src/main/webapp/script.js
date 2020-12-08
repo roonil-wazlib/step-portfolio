@@ -61,3 +61,49 @@ function updateImage(update) {
     currentImage.src = newImageName;
     currentImage.title = newImageNumber;
 }
+
+
+// Set variables
+const grid = document.getElementById("conway");
+var rows = document.getElementsByClassName("row");
+var cells = document.getElementsByClassName("cell");
+
+/**
+ * Create grid for Conway
+ * @param {Number} numRows - number of rows to add to grid div
+ * @param {Number} numCols - number of cols to add to grid div
+ */
+function populateGrid(numRows, numCols) {
+    createRows(numRows);
+    createCells(numRows, numCols);
+}
+
+/**
+ * Populate the grid div with row divs
+ * @param {Number} numRows - number of rows to populate with
+ */
+function createRows(numRows) {
+    for (r = 0; r < numRows; r++) {
+        var row = document.createElement("div");
+        grid.appendChild(row).className = "row";
+    };
+    console.log("Rows created");
+};
+
+/**
+ * Populate the row divs with cells
+ * @param {Number} numRows - number of rows that need populating
+ * @param {Number} numCols - number of cells to add to each row
+ */
+function createCells(numRows, numCols) {
+    for (i = 0; i < numRows; i++) {
+        for (j = 0; j < numCols; j++) {
+            var newCell = document.createElement("div");
+            rows[j].appendChild(newCell).className = "cell";
+        };
+
+    };
+};
+
+//Create a 16 by 16 grid
+populateGrid(16, 16);
