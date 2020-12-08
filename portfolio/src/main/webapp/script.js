@@ -13,16 +13,51 @@
 // limitations under the License.
 
 /**
- * Adds a random greeting to the page.
+ * Adds a random quote to the page.
  */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
+function addRandomQuote() {
+  const quotes =
+      ['Ride! Ride Riders of Rohan! Ride to ruin!', 'May the force be with you.', 
+      'The secret to flying is to throw yourself at the ground and miss.', 'AHHHHHHHHHHHHH'];
 
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+  // Pick a random quote.
+  const quote = quotes[Math.floor(Math.random() * quotes.length)];
 
   // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
+  const quoteContainer = document.getElementById('quote-container');
+  quoteContainer.innerText = quote;
+}
+
+/**
+ * Go forward one image in George gallery
+ */
+function goForward() {
+    updateImage(1);
+}
+
+/**
+ * Go back one image in George gallery
+ */
+function goBack() {
+    updateImage(-1);
+}
+
+/**
+ * Update image source to reflect forward/back change
+ * @param {Number} update - 1 to go forward, -1 to go back
+ */
+function updateImage(update) {
+    const totalImages = 12;
+
+    //get current image source and number of image
+    const currentImage = document.getElementById('george-gallery');
+    const imageNumber = Number(currentImage.title);
+    
+    //create new image number and source
+    const newImageNumber = String((imageNumber + update + totalImages) % totalImages); //need additional + totalImages since js doesn't use strict modulus
+    const newImageName = 'images/george/george' + newImageNumber + '.jpg';
+
+    //update image properties
+    currentImage.src = newImageName;
+    currentImage.title = newImageNumber;
 }
