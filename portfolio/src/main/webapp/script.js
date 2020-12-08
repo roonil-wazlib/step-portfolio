@@ -100,10 +100,29 @@ function createCells(numRows, numCols) {
         for (j = 0; j < numCols; j++) {
             var newCell = document.createElement("div");
             rows[j].appendChild(newCell).className = "cell";
+            let cell = newCell;
+            newCell.onclick = function() {clickCell(cell);};
         };
 
     };
 };
+
+/**
+ * Toggle colour of clicked grid cell
+ * @param cell - cell object that was clicked on
+ */
+function clickCell(cell) {
+    //cell = cells[rows.length * x + y];
+    var currBackground = cell.style.background
+    switch (currBackground) {
+        case 'black':
+            cell.style.background = 'white';
+            break;
+        default:
+            cell.style.background = 'black';
+            break;
+    }
+}
 
 //Create a 16 by 16 grid
 populateGrid(16, 16);
