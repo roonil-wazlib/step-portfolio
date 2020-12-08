@@ -54,7 +54,7 @@ function updateImage(update) {
     const imageNumber = Number(currentImage.title);
     
     //create new image number and source
-    const newImageNumber = String((imageNumber + update + totalImages) % totalImages); //need additional + totalImages since js doesn't use strick modulus
+    const newImageNumber = String((imageNumber + update + totalImages) % totalImages); //need additional + totalImages since js doesn't use strict modulus
     const newImageName = 'images/george/george' + newImageNumber + '.jpg';
 
     //update image properties
