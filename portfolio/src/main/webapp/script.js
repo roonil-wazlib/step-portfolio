@@ -206,7 +206,16 @@ function updateGridView(newColours) {
     }
 }
 
+/**
+ * Reset the Conway grid
+ */
+function reset() {
+    for (i = 0; i < cells.length; i++) {
+        cells[i].style.background = 'white';
+    }
+}
+
 //Create a 16 by 16 grid
-const gridWidth = 16;
-const gridHeight = 16;
+const gridWidth = 40;
+const gridHeight = 40;
 populateGrid(gridWidth, gridHeight);

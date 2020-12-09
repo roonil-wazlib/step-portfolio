@@ -1,15 +1,5 @@
-#content {
-  margin-bottom: 120px; /*exceed height of footer*/ 
-}
-
 #greeting-container {
   margin-top: 20px;
-}
-
-body {
-  display: flex;
-  flex-direction: horizontal;
-  justify-content: space-evenly;
 }
 
 .row {
@@ -30,6 +20,13 @@ h2 {
     margin-top: 5px;
     margin-bottom: 5px;
     padding: 0px;
+}
+
+body {
+  display: flex;
+  flex-direction: horizontal;
+  justify-content: space-evenly;
+  margin-bottom: 80px;
 }
 
 #footer {
