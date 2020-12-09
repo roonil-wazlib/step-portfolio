@@ -1,12 +1,18 @@
-#content {
-  margin-left: auto;
-  margin-right: auto;
-  width: 650px;
-  margin-bottom: 120px; /*exceed height of footer*/ 
-}
-
 #greeting-container {
   margin-top: 20px;
+}
+
+.row {
+    display: inline-block; /* wrap contents */
+    padding: 0;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.cell {
+  border: 1px solid black;
+  width: 15px;
+  height: 15px;
 }
 
 h2 {
@@ -14,6 +20,13 @@ h2 {
     margin-top: 5px;
     margin-bottom: 5px;
     padding: 0px;
+}
+
+body {
+  display: flex;
+  flex-direction: horizontal;
+  justify-content: space-evenly;
+  margin-bottom: 80px;
 }
 
 #footer {

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Emma's Portfolio</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
     <script src="https://kit.fontawesome.com/df169541e0.js" crossorigin="anonymous"></script>
   </head>
   <body>
@@ -21,6 +21,12 @@
       <p>Click here to get a random message:</p>
       <button onclick="addRandomQuote()">Generate hilarity</button>
       <div id="quote-container"></div>
+    </div>
+    <div id="interactive">
+        <h2>Conway's Game of Life</h2>
+        <div id="conway"></div>
+        <button onclick="reset()"> Reset </button>
+        <button onclick="nextStage()"> Next </button>
     </div>
   </body>
   <div id='footer'>
