@@ -9,46 +9,49 @@
   </head>
   <body>
     <div id="content">
-      <h1>Emma's Portfolio</h1>
-      <img id="me" src="images/me.jpg" width="150px" alt="Profile picture"/>
-      <p>Element that introduces me.</p>
-      <p>Here is a gallery of photos of my cat, George.</p>
-      <img id="george-gallery" src="images/george/george0.jpg" width="300px" title='0'/>
-      <div id="nav-arrows">
-          <button onclick="goBack()"> Prev </button>
-          <button onclick="goForward()"> Next </button>
-      </div
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomQuote()">Generate hilarity</button>
-      <div id="quote-container"></div>
+      <div id="about-me">
+        <h1>Emma's Portfolio</h1>
+        <img id="me" src="images/me.jpg" width="150px" alt="Profile picture"/>
+        <p>Element that introduces me.</p>
+        <p>Here is a gallery of photos of my cat, George.</p>
+        <img id="george-gallery" src="images/george/george0.jpg" width="300px" title='0'/>
+        <div id="nav-arrows">
+            <button onclick="goBack()"> Prev </button>
+            <button onclick="goForward()"> Next </button>
+        </div
+        <p>Click here to get a random message:</p>
+        <button onclick="addRandomQuote()">Generate hilarity</button>
+        <div id="quote-container"></div>
+      </div>
+      <div id="interactive">
+          <h2>Conway's Game of Life</h2>
+          <div id="conway"></div>
+            <button onclick="reset()"> Reset </button>
+            <button onclick="nextStage()"> Next </button>
+          </div>
+      </div>
     </div>
-    <div id="interactive">
-        <h2>Conway's Game of Life</h2>
-        <div id="conway"></div>
-        <button onclick="reset()"> Reset </button>
-        <button onclick="nextStage()"> Next </button>
-    </div>
+    <footer id='footer'>
+        <div class="footer-content", id="contact-me"> 
+            <h2>Contact Me</h2>
+            <p><a href="mailto:emmahogan@google.com">emmahogan@google.com</a></p>
+        </div>
+        
+        <div class="footer-content", id="my-sites">
+            <h2>My Sites</h2>
+            <div class="socials">
+                <p>Github</p>
+                <a href="https://github.com/roonil-wazlib">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+            <div class="socials">
+                <p>Linked In</p>
+                <a href="https://www.linkedin.com/">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
   </body>
-  <div id='footer'>
-      <div class="footer-content", id="contact-me"> 
-          <h2>Contact Me</h2>
-          <p><a href="mailto:emmahogan@google.com">emmahogan@google.com</a></p>
-      </div>
-      
-      <div class="footer-content", id="my-sites">
-          <h2>My Sites</h2>
-          <div class="socials">
-              <p>Github</p>
-              <a href="https://github.com/roonil-wazlib">
-                <i class="fab fa-github"></i>
-              </a>
-          </div>
-          <div class="socials">
-              <p>Linked In</p>
-              <a href="https://www.linkedin.com/">
-                <i class="fab fa-linkedin-in"></i>
-              </a>
-          </div>
-      </div>
-  </div>
 </html>
