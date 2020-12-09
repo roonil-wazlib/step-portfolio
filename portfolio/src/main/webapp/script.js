@@ -87,7 +87,6 @@ function createRows(numRows) {
         var row = document.createElement("div");
         grid.appendChild(row).className = "row";
     };
-    console.log("Rows created");
 };
 
 /**
@@ -123,27 +122,34 @@ function clickCell(cell) {
     }
 }
 
-function playGame() {
+/**
+ * Display next stage of Conway on grid
+ */
+function nextStage() {
     var newColours = [];
-    while (true) {
-        for (x = 0; x < gridWidth; x++) {
-            for (y = 0; y < gridHeight; y++) {
-                var cellNum = y * gridWidth + x;
-                newColours[cellNum] = newColour(x, y);
-            }
+    for (x = 0; x < gridWidth; x++) {
+        for (y = 0; y < gridHeight; y++) {
+            var cellNum = y * gridWidth + x;
+            newColours[cellNum] = newColour(x, y);
         }
-        setTimeout(() => {  updateGridView(newColours); }, 500);
     }
+    updateGridView(newColours);
 }
 
+/**
+ * Determine the colour of a given grid cell in the next stage based on neighbours
+ * @param {Number} x - x coordinate of cell
+ * @param {Number} y - y coordinate of cell
+ */
 function newColour(x, y) {
-    var liveNeighbours = countNeighbours;
+    var liveNeighbours = countNeighbours(x, y);
     var currCell = cells[y * gridWidth + x];
     //Conway's game of life rules
     if (currCell.style.background == 'black') {
         //cell is currently alive
         if (liveNeighbours < 2 || liveNeighbours > 3) {
             //cell dies next iteration
+            console.log("Change");
             return 'white';
         } else {
             //cell lives next iteration
@@ -153,6 +159,7 @@ function newColour(x, y) {
         //cell is currently dead
         if (liveNeighbours == 3) {
             //cell comes alive
+            console.log("Change");
             return 'black'
         } else {
             //cell remains dead
@@ -161,14 +168,20 @@ function newColour(x, y) {
     }
 }
 
+/**
+ * Count the number of living neighbours a given cell has
+ * @param cell - cell object that was clicked on
+ * @param {Number} x - x coordinate of cell
+ * @param {Number} y - y coordinate of cell
+ */
 function countNeighbours(x, y) {
     var liveNeighbours = 0;
     for (i = -1; i <= 1; i++) {
         for (j = -1; j <= 1; j++) {
-            if (i == 0 ||j == 0) {
+            if (i == 0 && j == 0) {
                 // current cell, don't count
                 continue;
-            } else if (i < 0 || j < 0 || i >= gridWidth || j >= gridHeight) {
+            } else if (x + i < 0 || y + j < 0 || x + i >= gridWidth || y + j >= gridHeight) {
                 // gone off grid, ignore
                 continue;
             } else {
@@ -183,6 +196,10 @@ function countNeighbours(x, y) {
     return liveNeighbours
 }
 
+/**
+ * Update the css styling to reflect new dead and living cells
+ * @param {Object} newColours - an array containing the colours to update to
+ */
 function updateGridView(newColours) {
     for (x = 0; x < newColours.length; x++) {
         cells[x].style.background = newColours[x];
