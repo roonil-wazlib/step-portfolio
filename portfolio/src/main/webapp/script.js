@@ -220,8 +220,13 @@ function reset() {
     }
 }
 
+/**
+ * Fetch a greeting from servlet
+ */
 function getGreeting() {
-  fetch('/data').then(response => response.text()).then((greeting) => {
+  fetch('/data')
+  .then(response => response.text())
+  .then((greeting) => {
     document.getElementById('greeting-container').innerText = greeting;
   });
 }
