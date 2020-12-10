@@ -242,7 +242,7 @@ function getComments() {
         const commentSection = document.getElementById('comments-container');
 
         //hard coded for loop to get each of my 3 hard-coded comments
-        for (i = 0; i < 3; i++) {
+        for (i = 0; i < comments.length; i++) {
             commentSection.appendChild(
                 createListElement(comments[i])
             );
