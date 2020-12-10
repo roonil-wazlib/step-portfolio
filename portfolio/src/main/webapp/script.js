@@ -12,6 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
+//global constants
+const gridWidth = 40;
+const gridHeight = 40;
+
 /**
  * Adds a random quote to the page.
  */
@@ -215,7 +220,21 @@ function reset() {
     }
 }
 
-//Create a 16 by 16 grid
-const gridWidth = 40;
-const gridHeight = 40;
-populateGrid(gridWidth, gridHeight);
+/**
+ * Fetch a greeting from servlet
+ */
+function getGreeting() {
+  fetch('/data')
+  .then(response => response.text())
+  .then((greeting) => {
+    document.getElementById('greeting-container').innerText = greeting;
+  });
+}
+
+/**
+ * Actions to run once webpage has loaded
+ */
+function onLoad() {
+    populateGrid(gridWidth, gridHeight);
+    getGreeting();
+}
