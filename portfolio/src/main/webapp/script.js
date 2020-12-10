@@ -223,12 +223,38 @@ function reset() {
 /**
  * Fetch a greeting from servlet
  */
-function getGreeting() {
+/*function getGreeting() {
   fetch('/data')
   .then(response => response.text())
   .then((greeting) => {
     document.getElementById('greeting-container').innerText = greeting;
   });
+}*/
+
+/**
+ * Fetch comments from servlet
+ */
+function getComments() {
+    fetch('/data')
+    .then(response => response.json())
+    .then((comments)=> {
+        console.log(comments);
+        const commentSection = document.getElementById('comments-container');
+
+        //hard coded for loop to get each of my 3 hard-coded comments
+        for (i = 0; i < 3; i++) {
+            commentSection.appendChild(
+                createListElement(comments[i])
+            );
+        }
+    });
+}
+
+/** Creates an <li> element containing text. */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
 }
 
 /**
@@ -236,5 +262,5 @@ function getGreeting() {
  */
 function onLoad() {
     populateGrid(gridWidth, gridHeight);
-    getGreeting();
+    getComments();
 }
