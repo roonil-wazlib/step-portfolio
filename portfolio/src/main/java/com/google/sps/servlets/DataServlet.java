@@ -26,24 +26,33 @@ import java.util.ArrayList;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+  private ArrayList<String> comments = new ArrayList<String>();
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     /*//send a hard coded greeting
     response.setContentType("text/html;");
     response.getWriter().println("<h1>Hello Emma!</h1>");*/
 
-    //hard code some messages
-    ArrayList<String> messages = new ArrayList<String>();
-    messages.add("This is message 1");
-    messages.add("This is message 2");
-    messages.add("This is message 3");
-
-    //convert messages to JSON
-    String json = convertToJson(messages);
+    //convert comments to JSON
+    String json = convertToJson(comments);
 
     // Send the JSON as the response
-    response.setContentType("application/json;"); //?
+    response.setContentType("application/json;");
     response.getWriter().println(json);
+  }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Get the input from the form.
+    String screenName = getParameter(request, "screen-name", "Anonymous");
+    String comment = getParameter(request, "comment", "");
+
+    //add to comments array
+    comments.add(comment);
+
+    // Redirect back to the HTML page.
+    response.sendRedirect("/index.html");
   }
 
   /**
@@ -53,5 +62,17 @@ public class DataServlet extends HttpServlet {
     Gson gson = new Gson();
     String json = gson.toJson(list);
     return json;
+  }
+
+  /**
+   * @return the request parameter, or the default value if the parameter
+   * was not specified by the client
+   */
+  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+    String value = request.getParameter(name);
+    if (value == null) {
+      return defaultValue;
+    }
+    return value;
   }
 }

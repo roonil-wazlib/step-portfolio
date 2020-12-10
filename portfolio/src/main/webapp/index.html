@@ -31,7 +31,13 @@
           </div>
       </div>
     </div>
-    <div id="comments-container"></div>
+    <div id="comments-container">
+        <form action="/data" method="POST">
+            <textarea name="screen-name">Screen Name</textarea>
+            <textarea name="comment">Comment</textarea>
+            <input type="submit" />
+        </form>
+    </div>
     <footer id='footer'>
         <div class="footer-content", id="contact-me"> 
             <h2>Contact Me</h2>
