@@ -220,9 +220,16 @@ function reset() {
     }
 }
 
+function getGreeting() {
+  fetch('/data').then(response => response.text()).then((greeting) => {
+    document.getElementById('greeting-container').innerText = greeting;
+  });
+}
+
 /**
  * Actions to run once webpage has loaded
  */
 function onLoad() {
     populateGrid(gridWidth, gridHeight);
+    getGreeting();
 }
