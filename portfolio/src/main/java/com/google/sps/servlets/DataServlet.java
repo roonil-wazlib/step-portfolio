@@ -22,6 +22,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import com.google.sps.data.Comment;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
@@ -50,9 +53,17 @@ public class DataServlet extends HttpServlet {
     String commentText = getParameter(request, "comment", "");
 
     if (commentText != "") {
-        //add to comments array
+        /** //add to comments array
         Comment comment = new Comment(screenName, commentText);
         comments.add(comment);
+        response.sendRedirect("/index.html"); */
+
+        Entity commentEntity = new Entity("Comment");
+        commentEntity.setProperty("screen-name", screenName);
+        commentEntity.setProperty("commentText", commentText);
+
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        datastore.put(commentEntity);
         response.sendRedirect("/index.html");
     }
   }
