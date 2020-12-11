@@ -27,6 +27,7 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
@@ -37,7 +38,7 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Retrieve data from datastore
-    Query query = new Query("Comment");
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
@@ -64,11 +65,13 @@ public class DataServlet extends HttpServlet {
     // Get the input from the form.
     String screenName = getParameter(request, "screen-name", "Anonymous");
     String commentText = getParameter(request, "comment", "");
+    long timestamp = System.currentTimeMillis();
 
-    if (commentText != "") {
+    if (!commentText.isEmpty()) {
         Entity commentEntity = new Entity("Comment");
         commentEntity.setProperty("screen-name", screenName);
         commentEntity.setProperty("comment-text", commentText);
+        commentEntity.setProperty("timestamp", timestamp);
 
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         datastore.put(commentEntity);
