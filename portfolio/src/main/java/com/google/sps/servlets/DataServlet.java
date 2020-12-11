@@ -49,7 +49,7 @@ public class DataServlet extends HttpServlet {
     String screenName = getParameter(request, "screen-name", "Anonymous");
     String commentText = getParameter(request, "comment", "");
 
-    if (commentText != "") {
+    if (!commentText.isEmpty()) {
         //add to comments array
         Comment comment = new Comment(screenName, commentText);
         comments.add(comment);
