@@ -235,12 +235,15 @@ function reset() {
  * Fetch comments from servlet
  */
 function getComments() {
-    fetch('/data?num-comments=5')
+    var numComments = document.getElementById("comment-number").value;
+    fetch('/data?num-comments=' + numComments)
     .then(response => response.json())
     .then((comments)=> {
         console.log(comments);
         const commentSection = document.getElementById('comments-container');
-        //retrieve each comment
+        //erase any persistent comments before readding them
+        commentSection.innerHTML = "";
+        //add each retrieved comment
         for (i = 0; i < comments.length; i++) {
             commentSection.appendChild(
                 createListElement(comments[i])

@@ -31,7 +31,15 @@
           </div>
       </div>
     </div>
-    <div id="comments-container">
+    <div id="comments-section">
+        <label for="comment-number">Comments to display: </label>
+        <select name="comment-number" id="comment-number" onchange="getComments()">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+        </select>
+        <br><br>
         <form action="/data" method="POST">
             <input name="screen-name" placeholder="Screen Name"></textarea>
             <br/>
@@ -39,6 +47,8 @@
             <br/>
             <input type="submit" />
         </form>
+        <div id="comments-container">
+        </div>
     </div>
     <footer id='footer'>
         <div class="footer-content", id="contact-me"> 
