@@ -33,8 +33,6 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private ArrayList<Comment> comments = new ArrayList<Comment>();
-
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Retrieve data from datastore
@@ -42,6 +40,8 @@ public class DataServlet extends HttpServlet {
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
+
+    ArrayList<Comment> comments = new ArrayList<Comment>();
 
     for (Entity entity : results.asIterable()) {
       long id = entity.getKey().getId();
