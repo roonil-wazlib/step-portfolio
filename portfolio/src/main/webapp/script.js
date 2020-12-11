@@ -235,12 +235,11 @@ function reset() {
  * Fetch comments from servlet
  */
 function getComments() {
-    fetch('/data')
+    fetch('/data?num-comments=5')
     .then(response => response.json())
     .then((comments)=> {
         console.log(comments);
         const commentSection = document.getElementById('comments-container');
-
         //retrieve each comment
         for (i = 0; i < comments.length; i++) {
             commentSection.appendChild(

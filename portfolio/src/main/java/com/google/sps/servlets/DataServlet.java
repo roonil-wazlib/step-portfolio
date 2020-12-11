@@ -21,6 +21,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import com.google.sps.data.Comment;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -28,6 +30,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.repackaged.com.google.common.collect.Iterables;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
@@ -37,17 +40,23 @@ public class DataServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Retrieve data from datastore
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
-
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
+    // Retrieve number of comments requested
+    int numComments = Integer.parseInt(getParameter(request, "num-comments", "5"));
+
+    //prepare empty list to insert comment objects into
     ArrayList<Comment> comments = new ArrayList<Comment>();
 
-    for (Entity entity : results.asIterable()) {
+    //get first n comment entities as an iterable
+    Iterable<Entity> firstNComments = Iterables.limit(results.asIterable(), numComments);
+
+    //loop through entities and prepare list of comment objects
+    for (Entity entity : firstNComments) {
       long id = entity.getKey().getId();
       String screenName = (String) entity.getProperty("screen-name");
       String commentText = (String) entity.getProperty("comment-text");
-
       Comment comment = new Comment(id, screenName, commentText);
       comments.add(comment);
     }
