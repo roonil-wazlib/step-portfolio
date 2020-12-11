@@ -20,13 +20,17 @@ package com.google.sps.data;
  */
 public class Comment {
 
+  /** The id of the comment entry in datastore */
+  private long id;
+
   /** The name of the user who made the comment */
   private String screenName;
 
   /** The text of the comment */
   private String text;
 
-  public Comment(String screenName, String text) {
+  public Comment(long id, String screenName, String text) {
+      this.id = id;
       this.screenName = screenName;
       this.text = text;
   }
