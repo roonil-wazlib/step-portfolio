@@ -22,6 +22,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import com.google.sps.data.Comment;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
@@ -31,11 +37,22 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    /*//send a hard coded greeting
-    response.setContentType("text/html;");
-    response.getWriter().println("<h1>Hello Emma!</h1>");*/
+    // Retrieve data from datastore
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
 
-    //convert comments to JSON
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+      long id = entity.getKey().getId();
+      String screenName = (String) entity.getProperty("screen-name");
+      String commentText = (String) entity.getProperty("comment-text");
+
+      Comment comment = new Comment(id, screenName, commentText);
+      comments.add(comment);
+    }
+
+    // Convert comments to JSON
     String json = convertToJson(comments);
 
     // Send the JSON as the response
@@ -50,9 +67,12 @@ public class DataServlet extends HttpServlet {
     String commentText = getParameter(request, "comment", "");
 
     if (!commentText.isEmpty()) {
-        //add to comments array
-        Comment comment = new Comment(screenName, commentText);
-        comments.add(comment);
+        Entity commentEntity = new Entity("Comment");
+        commentEntity.setProperty("screen-name", screenName);
+        commentEntity.setProperty("comment-text", commentText);
+
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        datastore.put(commentEntity);
         response.sendRedirect("/index.html");
     }
   }
