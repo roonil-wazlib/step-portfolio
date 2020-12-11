@@ -21,12 +21,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import com.google.sps.data.Comment;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private ArrayList<String> comments = new ArrayList<String>();
+  private ArrayList<Comment> comments = new ArrayList<Comment>();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -46,19 +47,20 @@ public class DataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
     String screenName = getParameter(request, "screen-name", "Anonymous");
-    String comment = getParameter(request, "comment", "");
+    String commentText = getParameter(request, "comment", "");
 
-    //add to comments array
-    comments.add(comment);
-
-    // Redirect back to the HTML page.
-    response.sendRedirect("/index.html");
+    if (commentText != "") {
+        //add to comments array
+        Comment comment = new Comment(screenName, commentText);
+        comments.add(comment);
+        response.sendRedirect("/index.html");
+    }
   }
 
   /**
    * Converts arrayList instance into a JSON string using the Gson library.
    */
-  private String convertToJson(ArrayList<String> list) {
+  private String convertToJson(ArrayList<Comment> list) {
     Gson gson = new Gson();
     String json = gson.toJson(list);
     return json;

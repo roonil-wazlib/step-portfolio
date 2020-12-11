@@ -241,7 +241,7 @@ function getComments() {
         console.log(comments);
         const commentSection = document.getElementById('comments-container');
 
-        //hard coded for loop to get each of my 3 hard-coded comments
+        //retrieve each comment
         for (i = 0; i < comments.length; i++) {
             commentSection.appendChild(
                 createListElement(comments[i])
@@ -250,10 +250,10 @@ function getComments() {
     });
 }
 
-/** Creates an <li> element containing text. */
-function createListElement(text) {
+/** Creates an <li> element containing screen name and text. */
+function createListElement(comment) {
   const liElement = document.createElement('li');
-  liElement.innerText = text;
+  liElement.innerText = comment.screenName + ': ' + comment.text;
   return liElement;
 }
 
