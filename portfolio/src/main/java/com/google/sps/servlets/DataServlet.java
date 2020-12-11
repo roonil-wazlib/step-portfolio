@@ -25,6 +25,8 @@ import com.google.sps.data.Comment;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
@@ -34,11 +36,22 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    /*//send a hard coded greeting
-    response.setContentType("text/html;");
-    response.getWriter().println("<h1>Hello Emma!</h1>");*/
+    // Retrieve data from datastore
+    Query query = new Query("Comment");
 
-    //convert comments to JSON
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+      long id = entity.getKey().getId();
+      String screenName = (String) entity.getProperty("screen-name");
+      String commentText = (String) entity.getProperty("comment-text");
+
+      Comment comment = new Comment(id, screenName, commentText);
+      comments.add(comment);
+    }
+
+    // Convert comments to JSON
     String json = convertToJson(comments);
 
     // Send the JSON as the response
@@ -53,14 +66,9 @@ public class DataServlet extends HttpServlet {
     String commentText = getParameter(request, "comment", "");
 
     if (commentText != "") {
-        /** //add to comments array
-        Comment comment = new Comment(screenName, commentText);
-        comments.add(comment);
-        response.sendRedirect("/index.html"); */
-
         Entity commentEntity = new Entity("Comment");
         commentEntity.setProperty("screen-name", screenName);
-        commentEntity.setProperty("commentText", commentText);
+        commentEntity.setProperty("comment-text", commentText);
 
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         datastore.put(commentEntity);
