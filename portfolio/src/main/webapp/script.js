@@ -252,6 +252,18 @@ function getComments() {
     });
 }
 
+/**
+ * Delete all comments from datastore
+ */
+function deleteComments() {
+    const request = new Request('/delete-data', {method: 'POST'});
+    console.log("Deleting comments");
+    fetch(request)
+    .then((response) => {
+        getComments();
+    });
+}
+
 /** Creates an <li> element containing screen name and text. */
 function createListElement(comment) {
   const liElement = document.createElement('li');
