@@ -270,6 +270,11 @@ function displayCommentsForm() {
     form.style.display = "block"
 }
 
+/**
+ * Show comment submit form and prefil email as username
+ * @param {String} html - content to display logout button
+ * @param {String} email - email of current user to use as screen-name
+ */
 function showLoggedInDisplay(html, email) {
     displayCommentsForm();
     console.log(html);
@@ -280,12 +285,19 @@ function showLoggedInDisplay(html, email) {
     logInOutBox.innerHTML = html;
 }
 
+/**
+ * Hide comment submit box from logged out users
+ * @param {String} html - content to display login button
+ */
 function showLoggedOutDisplay(html) {
     hideCommentsForm();
     var logInOutBox = document.getElementById("log-in-or-out");
     logInOutBox.innerHTML = html;
 }
 
+/**
+ * Fetch login status and display comment section accordingly
+ */
 function loadCommentSection() {
     fetch('/log-in')
     .then(response => response.json())
