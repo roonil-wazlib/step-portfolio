@@ -265,11 +265,45 @@ function hideCommentsForm() {
     form.style.display = "none";
 }
 
+function displayCommentsForm() {
+    var form = document.getElementById("comments-form");
+    form.style.display = "block"
+}
+
+function showLoggedInDisplay(html, email) {
+    displayCommentsForm();
+    console.log(html);
+    console.log(email);
+    var screenNameBox = document.getElementById("email");
+    screenNameBox.text = email;
+    var logInOutBox = document.getElementById("log-in-or-out");
+    logInOutBox.innerHTML = html;
+    getComments();
+}
+
+function showLoggedOutDisplay(html) {
+    hideCommentsForm();
+    var logInOutBox = document.getElementById("log-in-or-out");
+    logInOutBox.innerHTML = html;
+}
+
+function loadCommentSection() {
+    fetch('/log-in')
+    .then(response => response.json())
+    .then((info) => {
+        //update display
+        if (info.isLoggedIn) {
+            showLoggedInDisplay(info.logInOrOut, info.email);
+        } else {
+            showLoggedOutDisplay(info.logInOrOut);
+        }
+    });
+}
+
 /**
  * Actions to run once webpage has loaded
  */
 function onLoad() {
-    hideCommentsForm(); //should be defaulting from css - this is a double check
+    loadCommentSection();
     populateGrid(gridWidth, gridHeight);
-    getComments();
 }
