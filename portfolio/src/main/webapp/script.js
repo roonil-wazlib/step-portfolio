@@ -278,7 +278,6 @@ function showLoggedInDisplay(html, email) {
     screenNameBox.text = email;
     var logInOutBox = document.getElementById("log-in-or-out");
     logInOutBox.innerHTML = html;
-    getComments();
 }
 
 function showLoggedOutDisplay(html) {
@@ -298,6 +297,7 @@ function loadCommentSection() {
             showLoggedOutDisplay(info.logInOrOut);
         }
     });
+    getComments();
 }
 
 /**
