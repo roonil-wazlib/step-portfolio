@@ -277,10 +277,6 @@ function displayCommentsForm() {
  */
 function showLoggedInDisplay(html, email) {
     displayCommentsForm();
-    console.log(html);
-    console.log(email);
-    var screenNameBox = document.getElementById("email");
-    screenNameBox.value = email;
     var logInOutBox = document.getElementById("log-in-or-out");
     logInOutBox.innerHTML = html;
 }
