@@ -260,10 +260,16 @@ function createListElement(comment) {
   return liElement;
 }
 
+function hideCommentsForm() {
+    var form = document.getElementById("comments-form");
+    form.style.display = "none";
+}
+
 /**
  * Actions to run once webpage has loaded
  */
 function onLoad() {
+    hideCommentsForm(); //should be defaulting from css - this is a double check
     populateGrid(gridWidth, gridHeight);
     getComments();
 }
