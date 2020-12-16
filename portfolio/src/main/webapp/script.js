@@ -221,17 +221,6 @@ function reset() {
 }
 
 /**
- * Fetch a greeting from servlet
- */
-/*function getGreeting() {
-  fetch('/data')
-  .then(response => response.text())
-  .then((greeting) => {
-    document.getElementById('greeting-container').innerText = greeting;
-  });
-}*/
-
-/**
  * Fetch comments from servlet
  */
 function getComments() {
@@ -271,10 +260,58 @@ function createListElement(comment) {
   return liElement;
 }
 
+function hideCommentsForm() {
+    var form = document.getElementById("comments-form");
+    form.style.display = "none";
+}
+
+function displayCommentsForm() {
+    var form = document.getElementById("comments-form");
+    form.style.display = "block"
+}
+
+/**
+ * Show comment submit form and prefil email as username
+ * @param {String} html - content to display logout button
+ * @param {String} email - email of current user to use as screen-name
+ */
+function showLoggedInDisplay(html, email) {
+    displayCommentsForm();
+    var logInOutBox = document.getElementById("log-in-or-out");
+    logInOutBox.innerHTML = html;
+}
+
+/**
+ * Hide comment submit box from logged out users
+ * @param {String} html - content to display login button
+ */
+function showLoggedOutDisplay(html) {
+    hideCommentsForm();
+    var logInOutBox = document.getElementById("log-in-or-out");
+    logInOutBox.innerHTML = html;
+}
+
+/**
+ * Fetch login status and display comment section accordingly
+ */
+function loadCommentSection() {
+    fetch('/log-in')
+    .then(response => response.json())
+    .then((info) => {
+        //update display
+        if (info.isLoggedIn) {
+            showLoggedInDisplay(info.logInOrOut, info.email);
+        } else {
+            showLoggedOutDisplay(info.logInOrOut);
+        }
+    });
+    getComments();
+}
+
 /**
  * Actions to run once webpage has loaded
  */
 function onLoad() {
+    loadCommentSection();
     populateGrid(gridWidth, gridHeight);
-    getComments();
 }

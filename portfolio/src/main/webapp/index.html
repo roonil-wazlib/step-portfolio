@@ -32,6 +32,7 @@
       </div>
     </div>
     <div id="comments-section">
+        <div id="log-in-or-out"></div>
         <label for="comment-number">Comments to display: </label>
         <select name="comment-number" id="comment-number" onchange="getComments()">
             <option value="5">5</option>
@@ -40,9 +41,7 @@
             <option value="20">20</option>
         </select>
         <br><br>
-        <form action="/data" method="POST">
-            <input name="screen-name" placeholder="Screen Name"></textarea>
-            <br/>
+        <form id='comments-form' action="/data" method="POST">
             <textarea name="comment" placeholder="Comment"></textarea>
             <br/>
             <input type="submit" />

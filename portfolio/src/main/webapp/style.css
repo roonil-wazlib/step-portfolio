@@ -76,3 +76,7 @@ h2 {
 #my-sites {
     float: right;
 }
+
+#comments-form {
+    display: none;
+}

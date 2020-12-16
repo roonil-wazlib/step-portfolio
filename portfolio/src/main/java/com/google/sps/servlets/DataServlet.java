@@ -31,6 +31,8 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.repackaged.com.google.common.collect.Iterables;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 
 /** Servlet that returns some example content. */
 @WebServlet("/data")
@@ -72,13 +74,22 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
-    String screenName = getParameter(request, "screen-name", "Anonymous");
     String commentText = getParameter(request, "comment", "");
     long timestamp = System.currentTimeMillis();
+    String email;
 
-    if (!commentText.isEmpty()) {
+    // Get user email
+    UserService userService = UserServiceFactory.getUserService();
+    if (userService.isUserLoggedIn()) {
+        email = userService.getCurrentUser().getEmail();
+    } else {
+        // Something has gone wrong
+        email = null;
+    }
+
+    if (!commentText.isEmpty() && email != null) {
         Entity commentEntity = new Entity("Comment");
-        commentEntity.setProperty("screen-name", screenName);
+        commentEntity.setProperty("screen-name", email);
         commentEntity.setProperty("comment-text", commentText);
         commentEntity.setProperty("timestamp", timestamp);
 
