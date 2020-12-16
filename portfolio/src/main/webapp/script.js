@@ -19,7 +19,7 @@ const gridHeight = 40;
 
 //set up chart
 google.charts.load('current', {'packages':['geochart'],
-        'mapsApiKey': SECRET
+        'mapsApiKey': config.mapsApiKey
       });
 google.charts.setOnLoadCallback(drawChart);
 
