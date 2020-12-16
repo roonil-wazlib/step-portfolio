@@ -17,6 +17,12 @@
 const gridWidth = 40;
 const gridHeight = 40;
 
+//set up chart
+google.charts.load('current', {'packages':['geochart'],
+        'mapsApiKey': SECRET
+      });
+google.charts.setOnLoadCallback(drawChart);
+
 /**
  * Adds a random quote to the page.
  */
