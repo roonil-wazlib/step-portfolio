@@ -34,9 +34,9 @@ public class HomeServlet extends HttpServlet {
     //get user status
     UserService userService = UserServiceFactory.getUserService();
 
-    boolean isLoggedIn;
+    boolean isLoggedIn = false;
+    String email = null;
     String html;
-    String email;
 
     if (userService.isUserLoggedIn()) {
       //if user is logged in return a greeting and log out button
@@ -48,9 +48,6 @@ public class HomeServlet extends HttpServlet {
       html = "<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>";
     } else {
       //if user is not logged in, return a log in button
-      isLoggedIn = false;
-      email = null;
-
       String urlToRedirectToAfterUserLogsIn = "/";
       String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
       html = "<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>";
