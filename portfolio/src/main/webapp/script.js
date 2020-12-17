@@ -315,28 +315,27 @@ function loadCommentSection() {
 }
 
 function drawChart() {
-    const data = google.visualization.arrayToDataTable([
-        ['Country', 'How much I like it'],
-        ['New Zealand', 100],
-        ['Australia', -80],
-        ['United States', -100],
-        ['Canada', 80],
-        ['UK', 60],
-        ['Russia', -20],
-        ['France', 50],
-        ['Germany', 40],
-        ['Brazil', -15]
+    fetch('/covid')
+    .then(response => response.json())
+    .then((covidCases) => {
+        console.log("AFLKSDF");
+        const data = new google.visualization.DataTable();
+        data.addColumn('string', 'Country');
+        data.addColumn('number', 'Cases Per Million');
 
-    ]);
+        Object.keys(covidCases).forEach((country) => {
+            data.addRow([country, covidCases[country]]);
+        });
 
-    var options = {
-        colorAxis : {colors: ['black', 'pink']},
-        'title' : "How much I like each Country",
-        'width' : 900,
-        'height': 500};
+        const options = {
+        colorAxis : {colors: ['green', 'red']},
+        'width':900,
+        'height':500
+        };
 
-    var chart = new google.visualization.GeoChart(document.getElementById('chart-container'));
-    chart.draw(data, options);
+        const chart = new google.visualization.GeoChart(document.getElementById('chart-container'));
+        chart.draw(data, options);
+    });
 }
 
 /**
