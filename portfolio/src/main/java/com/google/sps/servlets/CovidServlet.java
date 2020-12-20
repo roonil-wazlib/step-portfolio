@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
@@ -29,6 +30,7 @@ import java.util.Scanner;
 public class CovidServlet extends HttpServlet {
 
   private LinkedHashMap<String, Float> covidCases = new LinkedHashMap<>();
+  private ImmutableMap<String, Float> immutableCovidCases;
 
   @Override
   public void init() {
@@ -43,6 +45,7 @@ public class CovidServlet extends HttpServlet {
         float casesPerMillion = Float.parseFloat(cells[3]);
         covidCases.put(country, casesPerMillion);
     }
+    immutableCovidCases = ImmutableMap.copyOf(covidCases);
     scanner.close();
   }
 
@@ -50,7 +53,7 @@ public class CovidServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json");
     Gson gson = new Gson();
-    String json = gson.toJson(covidCases);
+    String json = gson.toJson(immutableCovidCases);
     response.getWriter().write(json);
   }
 }
