@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <title>Emma's Portfolio</title>
     <link rel="stylesheet" href="style.css">
+    <script src="config.js" defer></script>
     <script src="script.js" defer></script>
     <script src="https://kit.fontawesome.com/df169541e0.js" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
   </head>
   <body onLoad="onLoad()">
     <div id="content">
@@ -30,6 +32,10 @@
             <button onclick="nextStage()"> Next </button>
           </div>
       </div>
+    </div>
+    <div id ="map">
+        <h2>Covid Cases by Country (Cumulative per Million Population)</h2>
+        <div id="chart-container"></div>
     </div>
     <div id="comments-section">
         <div id="log-in-or-out"></div>

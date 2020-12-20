@@ -80,3 +80,7 @@ h2 {
 #comments-form {
     display: none;
 }
+
+#map {
+    margin: 0 auto;
+}

@@ -17,6 +17,12 @@
 const gridWidth = 40;
 const gridHeight = 40;
 
+//set up chart
+google.charts.load('current', {'packages':['geochart'],
+        'mapsApiKey': config.mapsApiKey
+      });
+google.charts.setOnLoadCallback(drawChart);
+
 /**
  * Adds a random quote to the page.
  */
@@ -306,6 +312,30 @@ function loadCommentSection() {
         }
     });
     getComments();
+}
+
+function drawChart() {
+    fetch('/covid')
+    .then(response => response.json())
+    .then((covidCases) => {
+        console.log("AFLKSDF");
+        const data = new google.visualization.DataTable();
+        data.addColumn('string', 'Country');
+        data.addColumn('number', 'Cases Per Million');
+
+        Object.keys(covidCases).forEach((country) => {
+            data.addRow([country, covidCases[country]]);
+        });
+
+        const options = {
+        colorAxis : {colors: ['green', 'red']},
+        'width':900,
+        'height':500
+        };
+
+        const chart = new google.visualization.GeoChart(document.getElementById('chart-container'));
+        chart.draw(data, options);
+    });
 }
 
 /**
