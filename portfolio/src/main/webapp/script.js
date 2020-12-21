@@ -344,6 +344,11 @@ function initMap() {
   const map = new google.maps.Map(
         document.getElementById('map'),
         {center: {lat: 35.78613674, lng: -119.4491591}, zoom: 6});
+    const trexMarker = new google.maps.Marker({
+        position: {lat: 37.421903, lng: -122.084674},
+        map: map,
+        title: 'Google'
+    });
 }
 
 /**
