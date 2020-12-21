@@ -351,6 +351,14 @@ function initMap() {
     });
 }
 
+loadScript();
+function loadScript() {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=' + config.mapsApiKey;
+    document.head.appendChild(script);
+}
+
 /**
  * Actions to run once webpage has loaded
  */
