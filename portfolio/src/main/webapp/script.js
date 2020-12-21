@@ -19,7 +19,7 @@ const gridHeight = 40;
 
 //set up chart
 google.charts.load('current', {'packages':['geochart'],
-        'mapsApiKey': config.mapsApiKey
+        'mapsApiKey': config.chartsApiKey
       });
 google.charts.setOnLoadCallback(drawChart);
 
@@ -318,7 +318,6 @@ function drawChart() {
     fetch('/covid')
     .then(response => response.json())
     .then((covidCases) => {
-        console.log("AFLKSDF");
         const data = new google.visualization.DataTable();
         data.addColumn('string', 'Country');
         data.addColumn('number', 'Cases Per Million');
@@ -338,10 +337,33 @@ function drawChart() {
     });
 }
 
+/** 
+ * Populate maps div with a map centered on California
+ */
+function initMap() {
+  const map = new google.maps.Map(
+        document.getElementById('map'),
+        {center: {lat: 35.78613674, lng: -119.4491591}, zoom: 6});
+    const trexMarker = new google.maps.Marker({
+        position: {lat: 37.421903, lng: -122.084674},
+        map: map,
+        title: 'Google'
+    });
+}
+
+loadScript();
+function loadScript() {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=' + config.mapsApiKey;
+    document.head.appendChild(script);
+}
+
 /**
  * Actions to run once webpage has loaded
  */
 function onLoad() {
     loadCommentSection();
     populateGrid(gridWidth, gridHeight);
+    initMap();
 }

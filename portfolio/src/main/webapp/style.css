@@ -81,6 +81,12 @@ h2 {
     display: none;
 }
 
-#map {
+#covid-map {
     margin: 0 auto;
+}
+
+#map {
+  border: thin solid black;
+  width: 500px;
+  height: 500px;
 }
