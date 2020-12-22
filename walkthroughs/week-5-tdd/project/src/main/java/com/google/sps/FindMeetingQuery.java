@@ -34,25 +34,35 @@ public final class FindMeetingQuery {
         TimeRange potentialTimeRange = TimeRange.fromStartDuration(
             potentialStartTime, requestedDuration
         );
-        Collection<Event> sortedEvents = sortEventsByStart(events);
 
-        for (Event event : sortedEvents) {
+        ArrayList<Event> eventArray = new ArrayList<>(events);
+        sortEventsByStart(eventArray);
+
+        for (Event event : eventArray) {
             //if overlaps with time-range and has attendees in common, not an option
             eventTime = event.getWhen();
             eventAttendees = event.getAttendees();
             isAttendeeOverlap = isAttendeeOverlap(requiredAttendees, eventAttendees);
-            if (potentialTimeRange.overlaps(eventTime) && isAttendeeOverlap) {
-                // this timeframe does not work
-                // adjust to next potential timeframe
-                potentialStartTime = eventTime.end();
-                potentialTimeRange = TimeRange.fromStartDuration(potentialStartTime, requestedDuration);
-            } else if (isAttendeeOverlap) {
-                // all times from potential start time up to this event are free for a meeting
-                possibleTimes.add(TimeRange.fromStartEnd(potentialStartTime, eventTime.end(), false));
-                // adjust to next potential timeframe
-                potentialStartTime = eventTime.end();
-                potentialTimeRange = TimeRange.fromStartDuration(potentialStartTime, requestedDuration);
+            if (potentialStartTime >= eventTime.end()) {
+                //skip this event
+            } else {
+                if (potentialTimeRange.overlaps(eventTime) && isAttendeeOverlap) {
+                    // this timeframe does not work
+                    // adjust to next potential timeframe
+                    potentialStartTime = eventTime.end();
+                    potentialTimeRange = TimeRange.fromStartDuration(potentialStartTime, requestedDuration);
+                } else if (isAttendeeOverlap) {
+                    // all start times from potential start time up to this event are free for a meeting
+                    possibleTimes.add(TimeRange.fromStartEnd(potentialStartTime, eventTime.start(), false));
+                    // adjust to next potential timeframe
+                    potentialStartTime = eventTime.end();
+                    potentialTimeRange = TimeRange.fromStartDuration(potentialStartTime, requestedDuration);
+                }
             }
+        }
+        //now check end of day:
+        if (TimeRange.END_OF_DAY - potentialStartTime >= requestedDuration) {
+            possibleTimes.add(TimeRange.fromStartEnd(potentialStartTime, TimeRange.END_OF_DAY, true));
         }
         return possibleTimes;
     }
@@ -66,9 +76,12 @@ public final class FindMeetingQuery {
         return false;
     }
 
-    private Collection<Event> sortEventsByStart(Collection<Event> events) {
-        Collections.sort(events, 
-            (e1, e2) -> e1.getWhen().start().compareTo(e2.getWhen().start()));
-        return events;
+    private void sortEventsByStart(ArrayList<Event> events) {
+        Collections.sort(events, new Comparator<Event>() {
+            @Override
+            public int compare(Event e1, Event e2) {
+                return e1.getWhen().start() - e2.getWhen().start();
+            }
+        });
     }
 }
