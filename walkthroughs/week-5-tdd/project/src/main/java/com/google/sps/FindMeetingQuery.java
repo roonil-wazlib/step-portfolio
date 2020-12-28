@@ -20,17 +20,32 @@ import java.util.*;
 
 public final class FindMeetingQuery {
     public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-
         Collection<String> requiredAttendees = request.getAttendees();
-        int requestedDuration = (int) request.getDuration();
+        Collection<String> allAttendees = new ArrayList<String>();
+        allAttendees.addAll(request.getAttendees());
+        allAttendees.addAll(request.getOptionalAttendees());
 
+        Collection<TimeRange> possibleTimes = new ArrayList<TimeRange>();
+
+        //if a meeting is possible with optional attendees, return those options
+        possibleTimes = getPossibleTimes(events, allAttendees, request);
+        if (possibleTimes.size() > 0) {
+            return possibleTimes;
+        } else {
+            //otherwise return the times that mandatory attendees can all manage
+            return getPossibleTimes(events, requiredAttendees, request);
+        }
+    }
+
+    private Collection<TimeRange> getPossibleTimes(Collection<Event> events, Collection<String> requestedAttendees, MeetingRequest request) {
+        int requestedDuration = (int) request.getDuration();
         Collection<TimeRange> possibleTimes = new ArrayList<TimeRange>();
 
         TimeRange eventTime;
         Collection<String> eventAttendees;
         boolean isAttendeeOverlap;
-
         int potentialStartTime = TimeRange.START_OF_DAY;
+        
         TimeRange potentialTimeRange = TimeRange.fromStartDuration(
             potentialStartTime, requestedDuration
         );
@@ -42,7 +57,8 @@ public final class FindMeetingQuery {
             //if overlaps with time-range and has attendees in common, not an option
             eventTime = event.getWhen();
             eventAttendees = event.getAttendees();
-            isAttendeeOverlap = isAttendeeOverlap(requiredAttendees, eventAttendees);
+
+            isAttendeeOverlap = isAttendeeOverlap(requestedAttendees, eventAttendees);
             if (potentialStartTime >= eventTime.end()) {
                 //skip this event
             } else {
@@ -66,6 +82,7 @@ public final class FindMeetingQuery {
         }
         return possibleTimes;
     }
+
 
     private boolean isAttendeeOverlap(Collection<String> event1Attendees, Collection<String> event2Attendees) {
         for (String attendee : event2Attendees) {
